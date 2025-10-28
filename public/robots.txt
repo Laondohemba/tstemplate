@@ -1,0 +1,61 @@
+# Allow Facebook's crawler full access
+User-agent: facebookexternalhit
+Allow: /
+
+# Allow other social media crawlers
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+# Rules for all other bots
+User-agent: *
+
+# Allow crawling of public pages
+Allow: /
+Allow: /about
+Allow: /products
+Allow: /services
+Allow: /contact
+
+# Disallow crawling of authentication pages
+Disallow: /signup
+Disallow: /login
+
+# Disallow crawling of authenticated/protected pages
+Disallow: /dashboard
+
+# Disallow crawling of Laravel framework directories
+Disallow: /storage/
+Disallow: /bootstrap/
+Disallow: /config/
+Disallow: /database/
+Disallow: /resources/
+Disallow: /routes/
+Disallow: /vendor/
+Disallow: /app/
+
+# Disallow common files that shouldn't be indexed
+Disallow: /.env
+Disallow: /composer.json
+Disallow: /composer.lock
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /artisan
+Disallow: /phpunit.xml
+Disallow: /webpack.mix.js
+Disallow: /vite.config.js
+
+# Allow assets and public files
+Allow: /assets/
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /favicon.ico
+
+# Specify sitemap location
+# Sitemap: https://app.tradesource360.ng/sitemap.xml
