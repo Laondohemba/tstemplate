@@ -442,3 +442,38 @@ document.addEventListener('DOMContentLoaded', function() {
                 icon.classList.add('text-gray-700');
             }
         }
+
+        function selectPaymentMethod(method) {
+            // Reset all payment methods
+            const methods = ['mastercard', 'paypal', 'visa', 'discover', 'card'];
+            methods.forEach(m => {
+                const radio = document.getElementById(`radio-${m}`);
+                if (radio) {
+                    radio.className = 'w-5 h-5 rounded-full border-2 border-gray-300';
+                    radio.innerHTML = '';
+                }
+            });
+
+            // Remove all green borders
+            document.querySelectorAll('.payment-method-btn').forEach(btn => {
+                btn.classList.remove('border-green-500', 'bg-green-50');
+                btn.classList.add('border-gray-200');
+            });
+
+            // Highlight selected method
+            const selectedRadio = document.getElementById(`radio-${method}`);
+            if (selectedRadio) {
+                selectedRadio.className = 'w-5 h-5 rounded-full border-2 border-green-500 flex items-center justify-center';
+                selectedRadio.innerHTML = '<div class="w-3 h-3 rounded-full bg-green-500"></div>';
+            }
+
+            // Add green border to selected card
+            if (method === 'card') {
+                event.currentTarget.classList.add('border-green-500');
+                event.currentTarget.classList.remove('border-gray-200');
+            } else {
+                const btn = event.currentTarget;
+                btn.classList.add('border-green-500');
+                btn.classList.remove('border-gray-200');
+            }
+        }
