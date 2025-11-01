@@ -376,3 +376,69 @@ document.addEventListener('DOMContentLoaded', function() {
                 banner.remove();
             }, 300);
         }
+
+         // Subscription toggle functionality
+        const monthlyBtn = document.getElementById('monthlyBtn');
+        const annuallyBtn = document.getElementById('annuallyBtn');
+
+        if (monthlyBtn && annuallyBtn) {
+            monthlyBtn.addEventListener('click', () => {
+                monthlyBtn.classList.add('bg-white');
+                annuallyBtn.classList.remove('bg-white');
+            });
+
+            annuallyBtn.addEventListener('click', () => {
+                annuallyBtn.classList.add('bg-white');
+                monthlyBtn.classList.remove('bg-white');
+            });
+        }
+
+        // FAQ Toggle functionality
+        function toggleFAQ(index) {
+            const content = document.getElementById(`faq-content-${index}`);
+            const icon = document.getElementById(`faq-icon-${index}`);
+            const item = document.getElementById(`faq-item-${index}`);
+            const text = document.getElementById(`faq-text-${index}`);
+            
+            // Close all FAQs and reset to white background
+            for (let i = 1; i <= 3; i++) {
+                const otherContent = document.getElementById(`faq-content-${i}`);
+                const otherIcon = document.getElementById(`faq-icon-${i}`);
+                const otherItem = document.getElementById(`faq-item-${i}`);
+                const otherText = document.getElementById(`faq-text-${i}`);
+                
+                if (i !== index) {
+                    otherContent.classList.add('hidden');
+                    otherIcon.classList.remove('rotate-180');
+                    otherItem.classList.remove('bg-green-600', 'border-green-600');
+                    otherItem.classList.add('bg-white', 'border-gray-200');
+                    otherText.classList.remove('text-white');
+                    otherText.classList.add('text-gray-700');
+                    otherIcon.classList.remove('text-white');
+                    otherIcon.classList.add('text-gray-700');
+                }
+            }
+            
+            // Toggle current FAQ
+            const isHidden = content.classList.contains('hidden');
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+            
+            if (isHidden) {
+                // Opening - change to green
+                item.classList.remove('bg-white', 'border-gray-200', 'bg-green-100', 'border-green-200');
+                item.classList.add('bg-[#4F9466]', 'border-green-600');
+                text.classList.remove('text-gray-700', 'text-green-800');
+                text.classList.add('text-white');
+                icon.classList.remove('text-gray-700', 'text-green-800');
+                icon.classList.add('text-white');
+            } else {
+                // Closing - change to white
+                item.classList.remove('bg-[#4F9466]', 'border-green-600');
+                item.classList.add('bg-white', 'border-gray-200');
+                text.classList.remove('text-white');
+                text.classList.add('text-gray-700');
+                icon.classList.remove('text-white');
+                icon.classList.add('text-gray-700');
+            }
+        }
