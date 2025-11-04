@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin || Products</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Enhanced focus styles for icons */
+        a:focus .fa-icon,
+        button:focus .fa-icon {
+            transform: scale(1.1);
+            transition: transform 0.2s ease;
+        }
+
+        /* Icon alignment fix */
+        .fa-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        /* Hover effects for menu items */
+        .menu-item:hover .fa-icon {
+            transform: translateX(2px);
+        }
+
+        /* Focus visible styles for keyboard navigation */
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+            border-radius: 0.5rem;
+        }
+
+        /* Ensure all menu items are focusable */
+        #sidebar a {
+            position: relative;
+        }
+
+        /* Active menu item styles */
+        .active-menu-item {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-left: 4px solid #fff;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Mobile overlay -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden hidden overlay-transition"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="fixed bottom-0 left-0 z-50 w-64 h-screen md:h-[89%] bg-[#0A4D11] text-white sidebar-transition transform -translate-x-full lg:translate-x-0">
+        <div class="h-full px-3 py-4 overflow-y-auto flex flex-col">
+            <!-- Navigation Menu -->
+            <nav class="flex-1" aria-label="Main navigation">
+                <ul class="space-y-2 text-white font-medium">
+                    <li>
+                        <a href="#dashboard" class="flex items-center p-3 rounded-lg active-menu-item group menu-item"
+                            aria-current="page" tabindex="0">
+                            <i class="fa-solid fa-house fa-icon" aria-hidden="true"></i>
+                            <span class="ml-3">Dashboard Overview</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#products" class="flex items-center p-3 rounded-lg hover:bg-white/10 group menu-item"
+                            tabindex="0">
+                            <i class="fa-solid fa-box fa-icon" aria-hidden="true"></i>
+                            <span class="ml-3">Manage Products</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#vendors" class="flex items-center p-3 rounded-lg hover:bg-white/10 group menu-item"
+                            tabindex="0">
+                            <i class="fa-solid fa-user-tie fa-icon" aria-hidden="true"></i>
+                            <span class="ml-3">Manage Vendors</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#buyers" class="flex items-center p-3 rounded-lg hover:bg-white/10 group menu-item"
+                            tabindex="0">
+                            <i class="fa-solid fa-users fa-icon" aria-hidden="true"></i>
+                            <span class="ml-3">Manage Buyers</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#orders" class="flex items-center p-3 rounded-lg hover:bg-white/10 group menu-item"
+                            tabindex="0">
+                            <i class="fa-solid fa-clipboard-list fa-icon" aria-hidden="true"></i>
+                            <span class="ml-3">Orders & Inquiries</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#subscriptions"
+                            class="flex items-center p-3 rounded-lg hover:bg-white/10 group menu-item" tabindex="0">
+                            <i class="fa-solid fa-credit-card fa-icon" aria-hidden="true"></i>
+                            <span class="ml-3">Subscriptions</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#reports" class="flex items-center p-3 rounded-lg hover:bg-white/10 group menu-item"
+                            tabindex="0">
+                            <i class="fa-solid fa-chart-line fa-icon" aria-hidden="true"></i>
+                            <span class="ml-3">Reports & Analytics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#settings" class="flex items-center p-3 rounded-lg hover:bg-white/10 group menu-item"
+                            tabindex="0">
+                            <i class="fa-solid fa-gear fa-icon" aria-hidden="true"></i>
+                            <span class="ml-3">Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Support Link -->
+            <div class="mt-auto">
+                <a href="#logout" class="flex items-center p-3 rounded-lg hover:bg-white/10 group menu-item"
+                    tabindex="0">
+                    <i class="fa-solid fa-right-from-bracket fa-icon" aria-hidden="true"></i>
+                    <span class="ml-3">Logout</span>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="lg:ml-64">
+        <!-- Fixed Navbar -->
+        <nav class="fixed top-0 right-0 left-0 bg-white z-30" aria-label="Top navigation">
+            <div class="px-4 lg:px-6">
+                <div class="flex items-center justify-between">
+                    <!-- Logo -->
+                    <div class="flex md:pb-2 pb-4">
+                        <div class="flex w-full h-auto space-x-2">
+                            <img src="../assets/logo.png" alt="TradeSource360 Logo" class="w-full h-6 mt-2 md:h-14">
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <div class="flex items-center">
+                            <!-- Mobile menu button -->
+                            <button id="toggleSidebar" type="button" aria-label="Toggle sidebar menu"
+                                class="inline-flex ml-3 items-center p-2 text-xl text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500">
+                                <i class="fa-solid fa-bars fa-icon" aria-hidden="true"></i>
+                            </button>
+                        </div>
+
+                        <!-- Search and Profile -->
+                        <div class="flex items-center space-x-4">
+                            <!-- Search -->
+                            <div class="relative hidden md:block">
+                                <label for="search" class="sr-only">Search products</label>
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <i class="fa-solid fa-magnifying-glass text-gray-400 fa-icon"
+                                        aria-hidden="true"></i>
+                                </div>
+                                <input type="text" id="search"
+                                    class="block w-60 p-2 pl-10 text-sm outline-none text-gray-900 rounded-lg bg-green-50 focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                    placeholder="Search products...">
+                            </div>
+
+                            <!-- Notifications -->
+                            <button type="button" aria-label="Notifications (3 unread)"
+                                class="relative p-2 text-gray-500 bg-green-[#EBF2EB] rounded-lg hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500">
+                                <i class="fa-solid fa-bell text-lg fa-icon" aria-hidden="true"></i>
+                                <span
+                                    class="absolute top-1 right-1 inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-600 rounded-full"
+                                    aria-hidden="true">3</span>
+                            </button>
+
+                            <!-- Profile -->
+                            <div class="relative">
+                                <button id="profileDropdown" type="button" aria-label="User profile menu"
+                                    aria-expanded="false" aria-haspopup="true"
+                                    class="flex items-center text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300">
+                                    <img class="w-8 h-8 rounded-full"
+                                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100"
+                                        alt="Profile picture">
+                                </button>
+                                <div id="profileMenu"
+                                    class="hidden absolute right-0 mt-2 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-lg">
+                                    <div class="px-4 py-3">
+                                        <p class="text-sm text-gray-900 font-medium">Rejoice</p>
+                                        <p class="text-sm text-gray-500 truncate">rejoice@example.com</p>
+                                    </div>
+                                    <ul class="py-1" role="menu">
+                                        <li role="none">
+                                            <a href="#profile" role="menuitem" tabindex="0"
+                                                class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                <i class="fa-solid fa-circle-user mr-3 fa-icon"
+                                                    aria-hidden="true"></i>Profile
+                                            </a>
+                                        </li>
+                                        <li role="none">
+                                            <a href="#settings" role="menuitem" tabindex="0"
+                                                class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                <i class="fa-solid fa-gear mr-3 fa-icon" aria-hidden="true"></i>Settings
+                                            </a>
+                                        </li>
+                                        <li role="none">
+                                            <a href="#signout" role="menuitem" tabindex="0"
+                                                class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                                <i class="fa-solid fa-right-from-bracket mr-3 fa-icon"
+                                                    aria-hidden="true"></i>Sign out
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+
+        <!-- Page Content -->
+        <main class="pt-20 p-4 lg:p-6">
+            <div class="mx-auto md:pt-14 max-w-7xl">
+                <!-- Page Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <h1 class="text-3xl font-bold text-gray-900">Products</h1>
+                    <button type="button" 
+                        class="px-4 py-2 bg-[#F2F5F2] text-[#121712] font-[500] text-sm rounded-lg hover:bg-green-100 focus:outline-none focus:ring-1 focus:ring-green-100 focus:ring-offset-2 transition-colors">
+                        Add Product
+                    </button>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="mb-6">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                            <i class="fa-solid fa-magnifying-glass text-gray-400" aria-hidden="true"></i>
+                        </div>
+                        <input type="text" 
+                            placeholder="Search products"
+                            class="w-full pl-11 pr-4 py-3 bg-[#F2F5F2] border-0 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-100">
+                    </div>
+                </div>
+
+                <!-- Filter Dropdowns -->
+                <div class="flex flex-wrap gap-3 mb-6">
+                    <!-- Category Dropdown -->
+                    <div class="relative">
+                        <select id="categorySelect"
+                            class="appearance-none inline-flex items-center gap-2 px-4 py-2 pr-10 hover:bg-green-100 border border-gray-300 rounded-lg text-sm font-medium text-gray-900 bg-[#F2F5F2] focus:outline-none focus:ring-2 focus:ring-green-100 outline-none transition-colors cursor-pointer">
+                            <option value="all">Category</option>
+                            <option value="farm-produce">Farm Produce</option>
+                            <option value="natural-resources">Natural Resources</option>
+                            <option value="services">Services</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <i class="fa-solid fa-chevron-down text-xs text-gray-500" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <!-- Vendor Dropdown -->
+                    <div class="relative">
+                        <select id="vendorSelect"
+                            class="appearance-none inline-flex items-center gap-2 px-4 py-2 pr-10 hover:bg-green-100 border border-gray-300 rounded-lg text-sm font-medium text-gray-900 bg-[#F2F5F2] focus:outline-none focus:ring-2 focus:ring-green-100 outline-none transition-colors cursor-pointer">
+                            <option value="all">Vendor</option>
+                            <option value="green-valley">Green Valley Farms</option>
+                            <option value="forestry">Forestry Inc.</option>
+                            <option value="business-solutions">Business Solutions LLC</option>
+                           
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <i class="fa-solid fa-chevron-down text-xs text-gray-500" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <!-- Status Dropdown -->
+                    <div class="relative">
+                        <select id="statusSelect"
+                            class="appearance-none inline-flex items-center gap-2 px-4 py-2 pr-10 hover:bg-green-100 border border-gray-300 rounded-lg text-sm font-medium text-gray-900 bg-[#F2F5F2] focus:outline-none focus:ring-2 focus:ring-green-100 outline-none transition-colors cursor-pointer">
+                            <option value="all">Status</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <i class="fa-solid fa-chevron-down text-xs text-gray-500" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Table -->
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-[900px]">
+                            <thead class="bg-white border-b border-gray-200">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">Product Name</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">Category</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">Vendor</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">Status</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500 whitespace-nowrap">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <!-- Row 1 -->
+                                <tr class="bg-[#EBF2EB] hover:bg-gray-100 transition-colors">
+                                    <td class="px-6 py-5 text-sm font-medium text-gray-900">
+                                        <div class="max-w-[250px] truncate" title="Organic Apples">Organic Apples</div>
+                                    </td>
+                                    <td class="px-6 py-5 text-sm text-[#66826B]">
+                                        <div class="max-w-[200px] truncate" title="Farm Produce">Farm Produce</div>
+                                    </td>
+                                    <td class="px-6 py-5 text-sm text-[#66826B]">
+                                        <div class="max-w-[200px] truncate" title="Green Valley Farms">Green Valley Farms</div>
+                                    </td>
+                                    <td class="px-6 py-5">
+                                        <span class="inline-flex px-6 py-1.5 text-xs font-medium text-gray-900 bg-[#F2F5F2] rounded-lg whitespace-nowrap">
+                                            Active
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-5 text-sm font-[700] text-[#66826B]">
+                                        <button class="hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 rounded transition-colors">
+                                            Edit
+                                        </button>
+                                        <span class="mx-1">|</span>
+                                        <button class="hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 rounded transition-colors">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Row 2 -->
+                                <tr class="bg-white hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-5 text-sm font-medium text-gray-900">
+                                        <div class="max-w-[250px] truncate" title="Premium Hardwood Lumber">Premium Hardwood Lumber</div>
+                                    </td>
+                                    <td class="px-6 py-5 text-sm text-[#66826B]">
+                                        <div class="max-w-[200px] truncate" title="Natural Resources">Natural Resources</div>
+                                    </td>
+                                    <td class="px-6 py-5 text-sm text-[#66826B]">
+                                        <div class="max-w-[200px] truncate" title="Forestry Inc.">Forestry Inc.</div>
+                                    </td>
+                                    <td class="px-6 py-5">
+                                        <span class="inline-flex px-6 py-1.5 text-xs font-medium text-gray-900 bg-[#F2F5F2] rounded-lg whitespace-nowrap">
+                                            Active
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-5 text-sm font-[700] text-[#66826B]">
+                                        <button class="hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 rounded transition-colors">
+                                            Edit
+                                        </button>
+                                        <span class="mx-1">|</span>
+                                        <button class="hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 rounded transition-colors">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Row 3 -->
+                                <tr class="bg-[#EBF2EB] hover:bg-gray-100 transition-colors">
+                                    <td class="px-6 py-5 text-sm font-medium text-gray-900">
+                                        <div class="max-w-[250px] truncate" title="Consulting Services">Consulting Services</div>
+                                    </td>
+                                    <td class="px-6 py-5 text-sm text-[#66826B]">
+                                        <div class="max-w-[200px] truncate" title="Services">Services</div>
+                                    </td>
+                                    <td class="px-6 py-5 text-sm text-[#66826B]">
+                                        <div class="max-w-[200px] truncate" title="Business Solutions LLC">Business Solutions LLC</div>
+                                    </td>
+                                    <td class="px-6 py-5">
+                                        <span class="inline-flex px-6 py-1.5 text-xs font-medium text-gray-900 bg-[#F2F5F2] rounded-lg whitespace-nowrap">
+                                            Active
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-5 text-sm font-[700] text-[#66826B]">
+                                        <button class="hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 rounded transition-colors">
+                                            Edit
+                                        </button>
+                                        <span class="mx-1">|</span>
+                                        <button class="hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 rounded transition-colors">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Row 4 -->
+                                <tr class="bg-white hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-5 text-sm font-medium text-gray-900">
+                                        <div class="max-w-[250px] truncate" title="Free-Range Eggs">Free-Range Eggs</div>
+                                    </td>
+                                    <td class="px-6 py-5 text-sm text-[#66826B]">
+                                        <div class="max-w-[200px] truncate" title="Farm Produce">Farm Produce</div>
+                                    </td>
+                                    <td class="px-6 py-5 text-sm text-[#66826B]">
+                                        <div class="max-w-[200px] truncate" title="Sunny Meadow Farms">Sunny Meadow Farms</div>
+                                    </td>
+                                    <td class="px-6 py-5">
+                                        <span class="inline-flex px-6 py-1.5 text-xs font-medium text-gray-900 bg-[#F2F5F2] rounded-lg whitespace-nowrap">
+                                            Active
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-5 text-sm font-[700] text-[#66826B]">
+                                        <button class="hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 rounded transition-colors">
+                                            Edit
+                                        </button>
+                                        <span class="mx-1">|</span>
+                                        <button class="hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 rounded transition-colors">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Row 5 -->
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/script.js"></script>
+</body>
+
+</html>
