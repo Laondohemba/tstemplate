@@ -1,0 +1,40 @@
+ /* Enhanced focus styles for icons */
+        a:focus .fa-icon,
+        button:focus .fa-icon {
+            transform: scale(1.1);
+            transition: transform 0.2s ease;
+        }
+
+        /* Icon alignment fix */
+        .fa-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        /* Hover effects for menu items */
+        .menu-item:hover .fa-icon {
+            transform: translateX(2px);
+        }
+
+        /* Focus visible styles for keyboard navigation */
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+            border-radius: 0.5rem;
+        }
+
+        /* Ensure all menu items are focusable */
+        #sidebar a {
+            position: relative;
+        }
+
+        /* Active menu item styles */
+        .active-menu-item {
+            background-color: #ffffff26;
+            border-left: 4px solid #fff;
+        }
